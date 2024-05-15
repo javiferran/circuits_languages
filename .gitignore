@@ -1,0 +1,9 @@
+.ipynb_checkpoints
+env
+.env
+data/
+checkpoints/
+wandb/
+__pycache__/
+trash.ipynb
+sva_tensors/
