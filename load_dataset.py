@@ -55,7 +55,7 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
     ex_number_list = []
     ex_lang_list = []
 
-    if language=='english' or language=='both':
+    if language=='english' or language=='English' or language=='both':
         len_sv_num = 6 # sentences should have 6 tokens
 
         hf_dataset = load_dataset("aryaman/causalgym", split='train')
@@ -67,7 +67,6 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             dataset = hf_dataset.filter(lambda example: example["base_type"]=='plural')
         else:
             dataset = hf_dataset
-        print(len(dataset))
         match_counter = start_at
         i=start_at
         while match_counter<num_samples:
@@ -87,8 +86,8 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
                 base_label_list.append(base_label)
                 answers.append((base_label, src_label))
                 ex_lang_list.append('English')
-                print(base.split()[1])
-                print(f'{base} {base_label}\n{src} {src_label}')
+                # print(base.split()[1])
+                # print(f'{base} {base_label}\n{src} {src_label}')
                 if base.split()[1].endswith('s'):
                     # Plural
                     ex_number_list.append('Plural')
@@ -99,7 +98,7 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             i += 1
             
 
-    if language=='spanish' or language=='both':
+    if language=='spanish' or language=='Spanish' or language=='both':
         verb_list_tuples, noun_list_tuples, examples_valid_verbs_tuples_pred = get_valid_spanish_verbs_nouns(model)
         noun_list_sing = [f' {noun_tuple[0]}' for noun_tuple in noun_list_tuples]
         noun_list_plural = [f' {noun_tuple[1]}' for noun_tuple in noun_list_tuples]
@@ -157,11 +156,12 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             answers.append((base_label, src_label))
             ex_lang_list.append('Spanish')
 
-            print(f'{base} {base_label}\n{src} {src_label}\n')
+            #print(f'{base} {base_label}\n{src} {src_label}\n')
             
             if counter >=num_samples:
                 break
-
+    print((np.array(ex_number_list)=='Singular').sum())
+    print((np.array(ex_number_list)=='Singular').sum())
     return {'base_list': base_list,
             'src_list': src_list,
             'base_label_list': base_label_list,

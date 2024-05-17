@@ -5,8 +5,9 @@ from jaxtyping import Float
 from fancy_einsum import einsum
 import einops
 from transformer_lens import HookedTransformer, HookedTransformerConfig, FactoredMatrix, ActivationCache
+import transformer_lens.patching as patching
 from PIL import ImageColor
-
+from functools import partial
 
 html_colors = {
     'darkgreen' : '#138808',
@@ -16,7 +17,8 @@ html_colors = {
     'blue_drawio' : '#6C8EBF',
     'orange_drawio' : '#D79B00',
     'red_drawio' : '#FF9999',
-    'grey_drawio' : '#303030'}
+    'grey_drawio' : '#303030',
+    'brown_D3' : '#8C564B',}
 
 def get_logit_diff(logits, answer_token_indices, mean=True):
     answer_token_indices = answer_token_indices.to(logits.device)
@@ -124,3 +126,44 @@ def compute_diff_means(dataset_rep, class_list, class_1, class_2):
     mean_class_2 = rep_class_2.mean(0)
 
     return mean_class_1 - mean_class_2
+
+
+def compute_act_patching(model: HookedTransformer,
+                         metric: callable,
+                         patching_type: str,
+                         batches_base_tokens: list,
+                         batches_src_tokens: list,
+                         batches_answer_token_indices: list,
+                         batches: int):
+    # resid_streams
+    # heads_all_pos : attn heads all positions at the same time
+    # heads_last_pos: attn heads last position
+    # full: (resid streams, attn block outs and mlp outs)
+
+    list_resid_pre_act_patch_results = []
+    for batch in range(batches):
+        base_tokens = batches_base_tokens[batch]
+        src_tokens = batches_src_tokens[batch]
+        base_logits, base_cache = model.run_with_cache(base_tokens)
+        src_logits, _ = model.run_with_cache(src_tokens)
+        answer_token_indices = batches_answer_token_indices[batch]
+        
+        metric_fn = partial(metric, answer_token_indices=answer_token_indices)
+        if patching_type=='resid_streams':
+            # resid_pre_act_patch_results -> [n_layers, pos]
+            patch_results = patching.get_act_patch_resid_pre(model, src_tokens, base_cache, metric_fn)
+        elif patching_type=='heads_all_pos':
+            patch_results = patching.get_act_patch_attn_head_out_all_pos(model, src_tokens, base_cache, metric_fn)
+        elif patching_type=='heads_last_pos':
+            # Activation patching per position
+            attn_head_out_per_pos_patch_results = patching.get_act_patch_attn_head_out_by_pos(model, src_tokens, base_cache, metric_fn)
+            # Select last position
+            patch_results = attn_head_out_per_pos_patch_results[:,-1]
+        elif patching_type=='full':
+            patch_results = patching.get_act_patch_block_every(model, src_tokens, base_cache, metric_fn)
+        
+        list_resid_pre_act_patch_results.append(patch_results)
+
+    total_resid_pre_act_patch_results = torch.stack(list_resid_pre_act_patch_results, 0).mean(0)
+
+    return total_resid_pre_act_patch_results
