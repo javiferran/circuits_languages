@@ -67,11 +67,10 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             dataset = hf_dataset.filter(lambda example: example["base_type"]=='plural')
         else:
             dataset = hf_dataset
-
+        print(len(dataset))
         match_counter = start_at
         i=start_at
         while match_counter<num_samples:
-            print('hey')
             for type_sentence in ['src','base']:
                 for word in dataset[i][type_sentence]:
                     if len(word.split())>1: # eliminate compound words like ' taxi driver'
@@ -160,7 +159,6 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
 
             print(f'{base} {base_label}\n{src} {src_label}\n')
             
-        
             if counter >=num_samples:
                 break
 
@@ -169,23 +167,32 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             'base_label_list': base_label_list,
             'src_label_list': src_label_list,
             'answers': answers,
-            'ex_lang_list': ex_lang_list}
+            'ex_lang_list': ex_lang_list,
+            'ex_number_list': ex_number_list}
 
 
-def get_batched_dataset(model, base_list, src_list, answers, batch_size=20):
+def get_batched_dataset(model, dataset, batch_size=20):
     """
     Creates a batched dataset (list of batches).
 
     Args:
-        base_list (list): A list of strings representing the questions.
-        src_list (list): A list of lists, where each inner list contains the choices for a question.
-        answers (list): A list of integers representing the correct answers for each question.
+        model (list):
+        dataset (dict):
+        batch_size (int)
     Returns:
         tuple: A tuple containing two lists:
             - batches_src_tokens (List[[batch_size, seq_len]]): A list of batches of prompts tokens ids.
             - batches_base_tokens (List[[batch_size, seq_len]]): A list of batches of correct answers (ints).
             - batches_answer_token_indices (List[[batch_size, 2]]): A list of batches of answers token indices.
     """
+    base_list = dataset['base_list']
+    src_list = dataset['src_list']
+    base_label_list = dataset['base_label_list']
+    src_label_list = dataset['src_label_list']
+    answers = dataset['answers']
+    ex_lang_list = dataset['ex_lang_list']
+    ex_number_list = dataset['ex_number_list']
+
     num_total_samples = len(base_list)
     batches = math.floor(num_total_samples/batch_size)
 
@@ -193,11 +200,13 @@ def get_batched_dataset(model, base_list, src_list, answers, batch_size=20):
         n = max(1, n)
         return (xs[i:i+n] for i in range(0, len(xs), n))
 
-    batches_src_list = list(chunks_fn(src_list, batch_size))
     batches_base_list = list(chunks_fn(base_list, batch_size))
-    #batches_src_label = list(chunks_fn(src_label_list, batch_size))
-    #batches_base_label = list(chunks_fn(base_label_list, batch_size))
+    batches_src_list = list(chunks_fn(src_list, batch_size))
+    batches_base_label_list = list(chunks_fn(base_label_list, batch_size))
+    batches_src_label_list = list(chunks_fn(src_label_list, batch_size))
     batches_answers = list(chunks_fn(answers, batch_size))
+    batches_ex_lang_list= list(chunks_fn(ex_lang_list, batch_size))
+    batches_ex_number_list = list(chunks_fn(ex_number_list, batch_size))
 
     batches_src_tokens = []
     batches_base_tokens = []
@@ -213,4 +222,10 @@ def get_batched_dataset(model, base_list, src_list, answers, batch_size=20):
         batches_src_tokens.append(src_tokens)
         batches_answer_token_indices.append(answer_token_indices)
         
-    return batches_base_tokens, batches_src_tokens, batches_answer_token_indices
+    return {'batches_base_tokens': batches_base_tokens,
+            'batches_src_tokens': batches_src_tokens,
+            'batches_base_label_list': batches_base_label_list,
+            'batches_src_label_list': batches_src_label_list,
+            'batches_answer_token_indices': batches_answer_token_indices,
+            'batches_ex_lang_list': batches_ex_lang_list,
+            'batches_ex_number_list': batches_ex_number_list}

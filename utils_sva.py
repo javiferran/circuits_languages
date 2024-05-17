@@ -5,6 +5,18 @@ from jaxtyping import Float
 from fancy_einsum import einsum
 import einops
 from transformer_lens import HookedTransformer, HookedTransformerConfig, FactoredMatrix, ActivationCache
+from PIL import ImageColor
+
+
+html_colors = {
+    'darkgreen' : '#138808',
+    'green_drawio' : '#82B366',
+    'dark_green_drawio' : '#557543',
+    'dark_red_drawio' : '#990000',
+    'blue_drawio' : '#6C8EBF',
+    'orange_drawio' : '#D79B00',
+    'red_drawio' : '#FF9999',
+    'grey_drawio' : '#303030'}
 
 def get_logit_diff(logits, answer_token_indices, mean=True):
     answer_token_indices = answer_token_indices.to(logits.device)
@@ -74,3 +86,41 @@ def paper_plot(fig, tickangle=60):
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black',
                     gridcolor='rgb(200,200,200)', griddash='dash', zeroline=False)
     return fig
+
+def to_group(number_val, lang_val, alpha):
+    if number_val=='Singular' and lang_val=='Spanish':
+        return ('Spanish Singular', 'rgba' + str(tuple(list(ImageColor.getcolor(html_colors['dark_green_drawio'], "RGB")) + [alpha])))
+    
+    elif number_val=='Plural' and lang_val=='Spanish':
+        return ('Spanish Plural', 'rgba' + str(tuple(list(ImageColor.getcolor(html_colors['green_drawio'], "RGB")) + [alpha])))
+    
+    elif number_val=='Singular' and lang_val=='English':
+        return ('English Singular', 'rgba' + str(tuple(list(ImageColor.getcolor(html_colors['dark_red_drawio'], "RGB")) + [alpha]))
+    )
+    elif number_val=='Plural' and lang_val=='English':
+        return ('English Plural', 'rgba' + str(tuple(list(ImageColor.getcolor(html_colors['red_drawio'], "RGB")) + [alpha])))
+    else:
+        print('ERROR!')
+
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+def run_pca(X, n_components):
+    # Standardize data before applying PCA
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+    pca = PCA(n_components=n_components)
+    X_embedded = pca.fit_transform(X)
+    return X_embedded, pca, scaler
+
+def compute_diff_means(dataset_rep, class_list, class_1, class_2):
+    # Get representations for each class
+    indices_1 = [i for i, x in enumerate(class_list) if x == class_1]
+    indices_2 = [i for i, x in enumerate(class_list) if x == class_2]
+    rep_class_1 = dataset_rep[indices_1,:]
+    rep_class_2 = dataset_rep[indices_2,:]
+    # Average across batch dimension
+    mean_class_1 = rep_class_1.mean(0)
+    mean_class_2 = rep_class_2.mean(0)
+
+    return mean_class_1 - mean_class_2
