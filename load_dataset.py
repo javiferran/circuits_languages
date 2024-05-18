@@ -161,7 +161,7 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             if counter >=num_samples:
                 break
     print((np.array(ex_number_list)=='Singular').sum())
-    print((np.array(ex_number_list)=='Singular').sum())
+    print((np.array(ex_number_list)=='Plural').sum())
     return {'base_list': base_list,
             'src_list': src_list,
             'base_label_list': base_label_list,
