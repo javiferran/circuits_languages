@@ -37,12 +37,12 @@ def read_files(model, file_name: str) -> list:
 def get_valid_spanish_verbs_nouns(model):
     # Get suitable list of verbs and nouns in singular and plural
     #examples_valid_verbs_tuples = [('es', 'son'), ('tiene', 'tienen'), ('fue', 'fueron'), ('era', 'eran')]
-    examples_valid_verbs_tuples_pred = [('fue', 'fueron'),('era', 'eran')]
+    examples_valid_verbs_tuples_pred = [('es', 'son'), ('era', 'eran'), ('fue', 'fueron'), ('tuvo', 'tuvieron'), ('tiene', 'tienen')]
     examples_valid_verbs_tuples = [('tuvo', 'tuvieron')]
     examples_valid_nouns = [('cantante', 'cantantes'), ('ingeniero', 'ingenieros'), ('ministro', 'ministros'), ('piloto', 'pilotos')]
     verb_list_tuples = list(set(examples_valid_verbs_tuples + read_files(model, "datasets/plausible_spa_singular_plural_past_verbs.txt")))
     noun_list_tuples = list(set(examples_valid_nouns + read_files(model, "datasets/spa_singular_plural_nouns.txt")))
-
+    print(examples_valid_verbs_tuples_pred)
     return verb_list_tuples, noun_list_tuples, examples_valid_verbs_tuples_pred
 
 def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
