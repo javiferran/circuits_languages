@@ -87,6 +87,8 @@ def paper_plot(fig, tickangle=60):
                     gridcolor='rgb(200,200,200)', griddash='dash', zeroline=False)
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black',
                     gridcolor='rgb(200,200,200)', griddash='dash', zeroline=False)
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+
     return fig
 
 def to_group(number_val, lang_val, alpha):

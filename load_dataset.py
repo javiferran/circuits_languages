@@ -3,10 +3,14 @@ from datasets import load_dataset
 import random
 import torch
 import math
+import os
+import json
+from sklearn.model_selection import train_test_split
 
 # seeds
-random.seed(10)
-np.random.seed(10)
+seed_number = 10
+random.seed(seed_number)
+np.random.seed(seed_number)
 
 def read_files(model, file_name: str) -> list:
     '''
@@ -36,132 +40,60 @@ def read_files(model, file_name: str) -> list:
 
 def get_valid_spanish_verbs_nouns(model):
     # Get suitable list of verbs and nouns in singular and plural
-    #examples_valid_verbs_tuples = [('es', 'son'), ('tiene', 'tienen'), ('fue', 'fueron'), ('era', 'eran')]
     examples_valid_verbs_tuples_pred = [('es', 'son'), ('era', 'eran'), ('fue', 'fueron'), ('tuvo', 'tuvieron'), ('tiene', 'tienen')]
     examples_valid_verbs_tuples = [('tuvo', 'tuvieron')]
     examples_valid_nouns = [('cantante', 'cantantes'), ('ingeniero', 'ingenieros'), ('ministro', 'ministros'), ('piloto', 'pilotos')]
     verb_list_tuples = list(set(examples_valid_verbs_tuples + read_files(model, "datasets/plausible_spa_singular_plural_past_verbs.txt")))
     noun_list_tuples = list(set(examples_valid_nouns + read_files(model, "datasets/spa_singular_plural_nouns.txt")))
-    print(examples_valid_verbs_tuples_pred)
     return verb_list_tuples, noun_list_tuples, examples_valid_verbs_tuples_pred
 
-def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
 
-    answers = []
-    src_list = []
+def load_sva_dataset(model, language, subject_number='both', split='train', num_samples=100):
+
+    dataset_path = './datasets/final_datasets'
+
+    # Construct the filename based on language and split
+    filename = f'{language}_{split}_sva_dataset.json'
+    file_path = os.path.join(dataset_path, filename)
+
+    # Load the dataset from the JSON file
+    with open(file_path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    # Initialize lists to store the data
     base_list = []
-    src_label_list = []
+    src_list = []
     base_label_list = []
-    ex_number_list = []
+    src_label_list = []
+    answers = []
     ex_lang_list = []
+    ex_number_list = []
 
-    if language=='english' or language=='English' or language=='both':
-        len_sv_num = 6 # sentences should have 6 tokens
-
-        hf_dataset = load_dataset("aryaman/causalgym", split='train')
-        hf_dataset = hf_dataset.filter(lambda example: example['task']=='agr_sv_num_subj-relc')#agr_sv_num_pp
-
-        if dataset_type=='singular':
-            dataset = hf_dataset.filter(lambda example: example["base_type"]=='singular')
-        elif dataset_type=='plural':
-            dataset = hf_dataset.filter(lambda example: example["base_type"]=='plural')
-        else:
-            dataset = hf_dataset
-        match_counter = start_at
-        i=start_at
-        while match_counter<num_samples:
-            for type_sentence in ['src','base']:
-                for word in dataset[i][type_sentence]:
-                    if len(word.split())>1: # eliminate compound words like ' taxi driver'
-                        break
-            
-            src = ''.join(dataset[i]['src']).replace('<|endoftext|>','')
-            base = ''.join(dataset[i]['base']).replace('<|endoftext|>','')
-            if len(src.split())==len_sv_num and len(base.split())==len_sv_num:
-                src_list.append(src)
-                base_list.append(base)
-                src_label = dataset[i]['src_label']
-                base_label = dataset[i]['base_label']
-                src_label_list.append(src_label)
-                base_label_list.append(base_label)
-                answers.append((base_label, src_label))
-                ex_lang_list.append('English')
-                # print(base.split()[1])
-                # print(f'{base} {base_label}\n{src} {src_label}')
-                if base.split()[1].endswith('s'):
-                    # Plural
-                    ex_number_list.append('Plural')
-                else:
-                    # Singular
-                    ex_number_list.append('Singular')
-                match_counter += 1
-            i += 1
-            
-
-    if language=='spanish' or language=='Spanish' or language=='both':
-        verb_list_tuples, noun_list_tuples, examples_valid_verbs_tuples_pred = get_valid_spanish_verbs_nouns(model)
-        noun_list_sing = [f' {noun_tuple[0]}' for noun_tuple in noun_list_tuples]
-        noun_list_plural = [f' {noun_tuple[1]}' for noun_tuple in noun_list_tuples]
-
-        verb_1_list_sing = [f' {verb_tuple[0]}' for verb_tuple in verb_list_tuples]
-        verb_1_list_plural = [f' {verb_tuple[1]}' for verb_tuple in verb_list_tuples]
-
-        verb_2_list_sing = [f' {verb_tuple[0]}' for verb_tuple in examples_valid_verbs_tuples_pred]
-        verb_2_list_plural = [f' {verb_tuple[1]}' for verb_tuple in examples_valid_verbs_tuples_pred]
-
-        permutations_list = [[i,j,k] for i in range(len(noun_list_sing)) for j in range(len(verb_1_list_sing)) for k in range(len(noun_list_sing)) if k!=i]
-        permutations_array = np.array(permutations_list)
-        np.random.shuffle(permutations_array)
-        counter = 0
-
-        for i,j,k in permutations_array:
-            counter += 1
-            sent_1 = f'Los{noun_list_plural[k]} que{verb_1_list_plural[j]} al{noun_list_sing[i]}'
-            sent_2 = f'El{noun_list_sing[k]} que{verb_1_list_sing[j]} al{noun_list_sing[i]}'
-
-            if dataset_type=='singular':
-                rdm_num = 0
-            elif dataset_type=='plural':
-                rdm_num = 1
+    # Process the loaded data
+    for i, item in enumerate(data.values()):
+        if i < num_samples:
+            if subject_number.lower() != 'both':
+                if subject_number.lower() == item['base_subject_number'].lower():
+                    base_list.append(item['base'])
+                    src_list.append(item['src'])
+                    base_label_list.append(item['base_label'])
+                    src_label_list.append(item['src_label'])
+                    answers.append((item['base_label'], item['src_label']))
+                    ex_lang_list.append(language)
+                    ex_number_list.append(item['base_subject_number'])
+        
             else:
-                rdm_num = int(round(random.uniform(0, 1), 0))
-
-            # Avoid verb repetition
-            verbs_indices = list(range(0,len(verb_2_list_sing)))
-            already_verb = j
-            available_verb_indices = verbs_indices[:already_verb] + verbs_indices[already_verb+1:]
-            ver_2_idx = np.random.choice(available_verb_indices)
-            
-            if rdm_num== 0:
-                src = sent_1
-                base = sent_2
-                src_label = verb_2_list_plural[ver_2_idx]
-                base_label = verb_2_list_sing[ver_2_idx]
-            else:
-                src = sent_2
-                base = sent_1
-                src_label = verb_2_list_sing[ver_2_idx]
-                base_label = verb_2_list_plural[ver_2_idx]
-            if base_label[-1] == 'n':
-                # Plural
-                ex_number_list.append('Plural')
-            else:
-                # Singular
-                ex_number_list.append('Singular')
-
-            src_list.append(src)
-            base_list.append(base)
-            src_label_list.append(src_label)
-            base_label_list.append(base_label)
-            answers.append((base_label, src_label))
-            ex_lang_list.append('Spanish')
-
-            #print(f'{base} {base_label}\n{src} {src_label}\n')
-            
-            if counter >=num_samples:
-                break
-    print((np.array(ex_number_list)=='Singular').sum())
-    print((np.array(ex_number_list)=='Plural').sum())
+                # assert num_samples % 2 == 0 , "num_samples must be even"
+                base_list.append(item['base'])
+                src_list.append(item['src'])
+                base_label_list.append(item['base_label'])
+                src_label_list.append(item['src_label'])
+                answers.append((item['base_label'], item['src_label']))
+                ex_lang_list.append(language)
+                ex_number_list.append(item['base_subject_number'])
+    
+    print((np.array(ex_number_list)=='singular').sum())
+    print((np.array(ex_number_list)=='plural').sum())
     return {'base_list': base_list,
             'src_list': src_list,
             'base_label_list': base_label_list,
@@ -171,7 +103,7 @@ def load_sva_dataset(model, language, dataset_type, num_samples, start_at=0):
             'ex_number_list': ex_number_list}
 
 
-def get_batched_dataset(model, dataset, batch_size=20):
+def get_batched_dataset(model, dataset, batch_size=16):
     """
     Creates a batched dataset (list of batches).
 
@@ -194,7 +126,7 @@ def get_batched_dataset(model, dataset, batch_size=20):
     ex_number_list = dataset['ex_number_list']
 
     num_total_samples = len(base_list)
-    batches = math.floor(num_total_samples/batch_size)
+    batches = math.floor(num_total_samples/batch_size) + 1
 
     def chunks_fn(xs, n):
         n = max(1, n)
@@ -229,3 +161,139 @@ def get_batched_dataset(model, dataset, batch_size=20):
             'batches_answer_token_indices': batches_answer_token_indices,
             'batches_ex_lang_list': batches_ex_lang_list,
             'batches_ex_number_list': batches_ex_number_list}
+
+
+def create_english_dataset():
+    len_sv_num = 6 # sentences should have 6 tokens
+
+    for split in ['train', 'validation', 'test']:
+        # Create English dataset
+        final_dict = {}
+
+        # English dataset
+        hf_dataset = load_dataset("aryaman/causalgym", split=split)
+        hf_dataset = hf_dataset.filter(lambda example: example['task']=='agr_sv_num_subj-relc')#agr_sv_num_pp
+        dataset = hf_dataset
+
+        valid_counter = 0
+        for i in range(len(dataset)):
+            for type_sentence in ['src', 'base']:
+                for word in dataset[i][type_sentence]:
+                    if len(word.split())>1: # eliminate compound words like ' taxi driver'
+                        break
+        
+            # Replace <|endoftext|> with empty space (we will add BOS later)
+            src = ''.join(dataset[i]['src']).replace('<|endoftext|>','')
+            base = ''.join(dataset[i]['base']).replace('<|endoftext|>','')
+
+            # Add to dataset only if sentences have the correct number of tokens
+            if len(src.split())==len_sv_num and len(base.split())==len_sv_num:
+                final_dict[valid_counter] = {}
+                final_dict[valid_counter]['src'] = src
+                final_dict[valid_counter]['base'] = base
+                final_dict[valid_counter]['src_label'] = dataset[i]['src_label']
+                final_dict[valid_counter]['base_label'] = dataset[i]['base_label']
+                if base.split()[1].endswith('s'):
+                    # plural
+                    final_dict[valid_counter]['base_subject_number'] = 'plural'
+                else:
+                    # singular
+                    final_dict[valid_counter]['base_subject_number'] = 'singular'
+
+                valid_counter += 1
+        
+        # Create the directory if it doesn't exist
+        final_datsets_dir = './datasets/final_datasets'
+        os.makedirs(final_datsets_dir, exist_ok=True)
+
+        # Save final_dict as a JSON file
+        output_path = f'{final_datsets_dir}/english_{split}_sva_dataset.json'
+        with open(output_path, 'w') as f:
+            json.dump(final_dict, f, indent=4)
+
+        print(f"Dataset saved to {output_path}")
+
+def create_spanish_dataset(model):
+    # Create Spanish dataset
+    verb_list_tuples, noun_list_tuples, examples_valid_verbs_tuples_pred = get_valid_spanish_verbs_nouns(model)
+    noun_list_sing = [f' {noun_tuple[0]}' for noun_tuple in noun_list_tuples]
+    noun_list_plural = [f' {noun_tuple[1]}' for noun_tuple in noun_list_tuples]
+
+    verb_1_list_sing = [f' {verb_tuple[0]}' for verb_tuple in verb_list_tuples]
+    verb_1_list_plural = [f' {verb_tuple[1]}' for verb_tuple in verb_list_tuples]
+
+    verb_2_list_sing = [f' {verb_tuple[0]}' for verb_tuple in examples_valid_verbs_tuples_pred]
+    verb_2_list_plural = [f' {verb_tuple[1]}' for verb_tuple in examples_valid_verbs_tuples_pred]
+
+    permutations_list = [[i,j,k] for i in range(len(noun_list_sing)) for j in range(len(verb_1_list_sing)) for k in range(len(noun_list_sing)) if k!=i]
+    permutations_array = np.array(permutations_list)
+    
+    np.random.seed(seed_number)
+    np.random.shuffle(permutations_array)
+
+    final_dict = {}
+
+    for valid_counter, (i,j,k) in enumerate(permutations_array):
+        final_dict[valid_counter] = {}
+
+        sent_1 = f'Los{noun_list_plural[k]} que{verb_1_list_plural[j]} al{noun_list_sing[i]}'
+        sent_2 = f'El{noun_list_sing[k]} que{verb_1_list_sing[j]} al{noun_list_sing[i]}'
+
+        # Avoid verb repetition
+        verbs_indices = list(range(0,len(verb_2_list_sing)))
+        already_verb = j
+        available_verb_indices = verbs_indices[:already_verb] + verbs_indices[already_verb+1:]
+        ver_2_idx = np.random.choice(available_verb_indices)
+
+        # Get random number [0,1] to decide if we use the sentence with the plural base or the one with the singular base
+        rdm_num = int(round(random.uniform(0, 1), 0))
+
+        if rdm_num== 0:
+            src = sent_1
+            base = sent_2
+            src_label = verb_2_list_plural[ver_2_idx]
+            base_label = verb_2_list_sing[ver_2_idx]
+        else:
+            src = sent_2
+            base = sent_1
+            src_label = verb_2_list_sing[ver_2_idx]
+            base_label = verb_2_list_plural[ver_2_idx]
+        
+        final_dict[valid_counter]['src'] = src
+        final_dict[valid_counter]['base'] = base
+        final_dict[valid_counter]['src_label'] = src_label
+        final_dict[valid_counter]['base_label'] = base_label
+
+        if base_label[-1] == 'n':
+            # plural
+            final_dict[valid_counter]['base_subject_number'] = 'plural'
+        else:
+            # singular
+            final_dict[valid_counter]['base_subject_number'] = 'singular'
+
+    
+    len_dataset = len(final_dict)
+
+    train_end_idx = len_dataset*70//100
+    val_end_idx = len_dataset*85//100
+    split_dicts = {}
+    split_dicts['train'] = {k: final_dict[k] for k in list(final_dict)[:train_end_idx]}
+    split_dicts['validation'] = {k: final_dict[k] for k in list(final_dict)[train_end_idx:val_end_idx]}
+    split_dicts['test'] = {k: final_dict[k] for k in list(final_dict)[val_end_idx:]}
+
+    for split in ['train', 'validation', 'test']:
+        # Create the directory if it doesn't exist
+        final_datsets_dir = './datasets/final_datasets'
+        os.makedirs(final_datsets_dir, exist_ok=True)
+
+        # Save final_dict as a JSON file
+        output_path = f'{final_datsets_dir}/spanish_{split}_sva_dataset.json'
+        with open(output_path, 'w') as f:
+            json.dump(split_dicts[split], f, indent=4)
+
+        print(f"Dataset saved to {output_path}")
+
+
+def create_sva_datasets(model):
+    create_english_dataset()
+    create_spanish_dataset(model)

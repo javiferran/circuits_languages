@@ -1,0 +1,590 @@
+{
+    "0": {
+        "src": "The minister that hurt the athletes",
+        "base": "The senators that hurt the athletes",
+        "src_label": " was",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "1": {
+        "src": "The customer that liked the manager",
+        "base": "The customers that liked the manager",
+        "src_label": " was",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "2": {
+        "src": "The senators that hurt the athletes",
+        "base": "The minister that hurt the athletes",
+        "src_label": " have",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "3": {
+        "src": "The customers that liked the manager",
+        "base": "The customer that liked the manager",
+        "src_label": " have",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "4": {
+        "src": "The senators that admired the senator",
+        "base": "The clerk that admired the senator",
+        "src_label": " are",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "5": {
+        "src": "The pilot that hated the clerks",
+        "base": "The teachers that hated the clerks",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "6": {
+        "src": "The clerk that admired the senator",
+        "base": "The senators that admired the senator",
+        "src_label": " is",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "7": {
+        "src": "The teachers that hated the clerks",
+        "base": "The pilot that hated the clerks",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "8": {
+        "src": "The ministers that ignored the executives",
+        "base": "The teacher that ignored the executives",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "9": {
+        "src": "The farmers that injured the senators",
+        "base": "The secretary that injured the senators",
+        "src_label": " have",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "10": {
+        "src": "The teacher that ignored the executives",
+        "base": "The ministers that ignored the executives",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "11": {
+        "src": "The secretary that injured the senators",
+        "base": "The farmers that injured the senators",
+        "src_label": " has",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "12": {
+        "src": "The farmers that hurt the architects",
+        "base": "The senator that hurt the architects",
+        "src_label": " have",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "13": {
+        "src": "The senator that hurt the architects",
+        "base": "The farmers that hurt the architects",
+        "src_label": " was",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "14": {
+        "src": "The authors that embarrassed the guards",
+        "base": "The minister that embarrassed the guards",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "15": {
+        "src": "The minister that embarrassed the guards",
+        "base": "The authors that embarrassed the guards",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "16": {
+        "src": "The architects that hurt the authors",
+        "base": "The actor that hurt the authors",
+        "src_label": " were",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "17": {
+        "src": "The actor that hurt the authors",
+        "base": "The architects that hurt the authors",
+        "src_label": " was",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "18": {
+        "src": "The guard that ignored the officer",
+        "base": "The doctors that ignored the officer",
+        "src_label": " has",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "19": {
+        "src": "The farmer that injured the senator",
+        "base": "The authors that injured the senator",
+        "src_label": " is",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "20": {
+        "src": "The doctors that ignored the officer",
+        "base": "The guard that ignored the officer",
+        "src_label": " have",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "21": {
+        "src": "The authors that injured the senator",
+        "base": "The farmer that injured the senator",
+        "src_label": " were",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "22": {
+        "src": "The senators that disguised the authors",
+        "base": "The manager that disguised the authors",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "23": {
+        "src": "The manager that disguised the authors",
+        "base": "The senators that disguised the authors",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "24": {
+        "src": "The farmers that liked the senators",
+        "base": "The guard that liked the senators",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "25": {
+        "src": "The guard that liked the senators",
+        "base": "The farmers that liked the senators",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "26": {
+        "src": "The doctor that disguised the actors",
+        "base": "The athletes that disguised the actors",
+        "src_label": " has",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "27": {
+        "src": "The doctors that ignored the clerks",
+        "base": "The actor that ignored the clerks",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "28": {
+        "src": "The athletes that disguised the actors",
+        "base": "The doctor that disguised the actors",
+        "src_label": " have",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "29": {
+        "src": "The actor that ignored the clerks",
+        "base": "The doctors that ignored the clerks",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "30": {
+        "src": "The athletes that ignored the teacher",
+        "base": "The senator that ignored the teacher",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "31": {
+        "src": "The secretary that liked the athlete",
+        "base": "The farmers that liked the athlete",
+        "src_label": " is",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "32": {
+        "src": "The senator that ignored the teacher",
+        "base": "The athletes that ignored the teacher",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "33": {
+        "src": "The farmers that liked the athlete",
+        "base": "The secretary that liked the athlete",
+        "src_label": " are",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "34": {
+        "src": "The actor that hated the doctors",
+        "base": "The officers that hated the doctors",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "35": {
+        "src": "The officers that hated the doctors",
+        "base": "The actor that hated the doctors",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "36": {
+        "src": "The secretaries that embarrassed the senator",
+        "base": "The consultant that embarrassed the senator",
+        "src_label": " are",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "37": {
+        "src": "The architects that ignored the officers",
+        "base": "The consultant that ignored the officers",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "38": {
+        "src": "The consultant that embarrassed the senator",
+        "base": "The secretaries that embarrassed the senator",
+        "src_label": " is",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "39": {
+        "src": "The consultant that ignored the officers",
+        "base": "The architects that ignored the officers",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "40": {
+        "src": "The authors that injured the farmer",
+        "base": "The farmer that injured the farmer",
+        "src_label": " are",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "41": {
+        "src": "The actor that embarrassed the managers",
+        "base": "The guards that embarrassed the managers",
+        "src_label": " was",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "42": {
+        "src": "The farmer that injured the farmer",
+        "base": "The authors that injured the farmer",
+        "src_label": " is",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "43": {
+        "src": "The guards that embarrassed the managers",
+        "base": "The actor that embarrassed the managers",
+        "src_label": " were",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "44": {
+        "src": "The athletes that disguised the senators",
+        "base": "The customer that disguised the senators",
+        "src_label": " have",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "45": {
+        "src": "The executives that ignored the customer",
+        "base": "The clerk that ignored the customer",
+        "src_label": " were",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "46": {
+        "src": "The customer that disguised the senators",
+        "base": "The athletes that disguised the senators",
+        "src_label": " is",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "47": {
+        "src": "The clerk that ignored the customer",
+        "base": "The executives that ignored the customer",
+        "src_label": " was",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "48": {
+        "src": "The managers that injured the actor",
+        "base": "The executive that injured the actor",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "49": {
+        "src": "The doctor that ignored the clerk",
+        "base": "The senators that ignored the clerk",
+        "src_label": " was",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "50": {
+        "src": "The executive that injured the actor",
+        "base": "The managers that injured the actor",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "51": {
+        "src": "The senators that ignored the clerk",
+        "base": "The doctor that ignored the clerk",
+        "src_label": " have",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "52": {
+        "src": "The athlete that disguised the executive",
+        "base": "The officers that disguised the executive",
+        "src_label": " was",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "53": {
+        "src": "The officers that disguised the executive",
+        "base": "The athlete that disguised the executive",
+        "src_label": " were",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "54": {
+        "src": "The guards that hurt the pilot",
+        "base": "The farmer that hurt the pilot",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "55": {
+        "src": "The teachers that embarrassed the architect",
+        "base": "The architect that embarrassed the architect",
+        "src_label": " were",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "56": {
+        "src": "The farmer that hurt the pilot",
+        "base": "The guards that hurt the pilot",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "57": {
+        "src": "The architect that embarrassed the architect",
+        "base": "The teachers that embarrassed the architect",
+        "src_label": " is",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "58": {
+        "src": "The executive that injured the senators",
+        "base": "The actors that injured the senators",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "59": {
+        "src": "The officers that admired the ministers",
+        "base": "The consultant that admired the ministers",
+        "src_label": " were",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "60": {
+        "src": "The actors that injured the senators",
+        "base": "The executive that injured the senators",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "61": {
+        "src": "The consultant that admired the ministers",
+        "base": "The officers that admired the ministers",
+        "src_label": " is",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "62": {
+        "src": "The manager that injured the doctor",
+        "base": "The actors that injured the doctor",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "63": {
+        "src": "The minister that hurt the guard",
+        "base": "The pilots that hurt the guard",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "64": {
+        "src": "The actors that injured the doctor",
+        "base": "The manager that injured the doctor",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "65": {
+        "src": "The pilots that hurt the guard",
+        "base": "The minister that hurt the guard",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "66": {
+        "src": "The officers that disguised the guard",
+        "base": "The actor that disguised the guard",
+        "src_label": " were",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "67": {
+        "src": "The farmers that disguised the secretary",
+        "base": "The actor that disguised the secretary",
+        "src_label": " have",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "68": {
+        "src": "The actor that disguised the guard",
+        "base": "The officers that disguised the guard",
+        "src_label": " is",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "69": {
+        "src": "The actor that disguised the secretary",
+        "base": "The farmers that disguised the secretary",
+        "src_label": " is",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "70": {
+        "src": "The executive that liked the athlete",
+        "base": "The actors that liked the athlete",
+        "src_label": " was",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "71": {
+        "src": "The actors that liked the athlete",
+        "base": "The executive that liked the athlete",
+        "src_label": " have",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "72": {
+        "src": "The guards that disguised the athlete",
+        "base": "The customer that disguised the athlete",
+        "src_label": " are",
+        "base_label": " was",
+        "base_subject_number": "singular"
+    },
+    "73": {
+        "src": "The pilots that disguised the farmer",
+        "base": "The doctor that disguised the farmer",
+        "src_label": " were",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "74": {
+        "src": "The customer that disguised the athlete",
+        "base": "The guards that disguised the athlete",
+        "src_label": " was",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "75": {
+        "src": "The doctor that disguised the farmer",
+        "base": "The pilots that disguised the farmer",
+        "src_label": " is",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    },
+    "76": {
+        "src": "The ministers that hurt the manager",
+        "base": "The farmer that hurt the manager",
+        "src_label": " have",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "77": {
+        "src": "The guards that hurt the athletes",
+        "base": "The athlete that hurt the athletes",
+        "src_label": " have",
+        "base_label": " is",
+        "base_subject_number": "singular"
+    },
+    "78": {
+        "src": "The farmer that hurt the manager",
+        "base": "The ministers that hurt the manager",
+        "src_label": " is",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "79": {
+        "src": "The athlete that hurt the athletes",
+        "base": "The guards that hurt the athletes",
+        "src_label": " is",
+        "base_label": " have",
+        "base_subject_number": "plural"
+    },
+    "80": {
+        "src": "The actors that admired the author",
+        "base": "The doctor that admired the author",
+        "src_label": " are",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "81": {
+        "src": "The actors that injured the architects",
+        "base": "The executive that injured the architects",
+        "src_label": " were",
+        "base_label": " has",
+        "base_subject_number": "singular"
+    },
+    "82": {
+        "src": "The doctor that admired the author",
+        "base": "The actors that admired the author",
+        "src_label": " has",
+        "base_label": " are",
+        "base_subject_number": "plural"
+    },
+    "83": {
+        "src": "The executive that injured the architects",
+        "base": "The actors that injured the architects",
+        "src_label": " has",
+        "base_label": " were",
+        "base_subject_number": "plural"
+    }
+}
