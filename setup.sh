@@ -69,10 +69,10 @@ setup_venv() {
     python -m venv venv
     source venv/bin/activate
 
-    echo "source ~/mats_hallucinations/venv/bin/activate" >> ~/.bashrc
-    echo "source ~/mats_hallucinations/venv/bin/activate" >> ~/.zshrc
-    echo "source ~/mats_hallucinations/venv/bin/activate" >> ~/.bash_profile
-    echo "source ~/mats_hallucinations/venv/bin/activate" >> ~/.profile
+    echo "source ~/circuits_languages/venv/bin/activate" >> ~/.bashrc
+    echo "source ~/circuits_languages/venv/bin/activate" >> ~/.zshrc
+    echo "source ~/circuits_languages/venv/bin/activate" >> ~/.bash_profile
+    echo "source ~/circuits_languages/venv/bin/activate" >> ~/.profile
 
     echo "Done setting up venv!"
 }
