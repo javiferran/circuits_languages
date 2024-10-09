@@ -7,3 +7,4 @@ wandb/
 __pycache__/
 trash.ipynb
 sva_tensors/
+venv

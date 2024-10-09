@@ -4,7 +4,7 @@ from typing import List, Union, Optional
 from jaxtyping import Float
 from fancy_einsum import einsum
 import einops
-from transformer_lens import HookedTransformer, HookedTransformerConfig, FactoredMatrix, ActivationCache
+from transformer_lens import HookedTransformer, ActivationCache
 import transformer_lens.patching as patching
 from PIL import ImageColor
 from functools import partial
@@ -141,7 +141,6 @@ def compute_act_patching(model: HookedTransformer,
     # heads_all_pos : attn heads all positions at the same time
     # heads_last_pos: attn heads last position
     # full: (resid streams, attn block outs and mlp outs)
-
     list_resid_pre_act_patch_results = []
     for batch in range(batches):
         base_tokens = batches_base_tokens[batch]

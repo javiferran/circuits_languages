@@ -126,7 +126,7 @@ def get_batched_dataset(model, dataset, batch_size=16):
     ex_number_list = dataset['ex_number_list']
 
     num_total_samples = len(base_list)
-    batches = math.floor(num_total_samples/batch_size) + 1
+    batches = math.floor(num_total_samples/batch_size)# + 1
 
     def chunks_fn(xs, n):
         n = max(1, n)
@@ -172,7 +172,7 @@ def create_english_dataset():
 
         # English dataset
         hf_dataset = load_dataset("aryaman/causalgym", split=split)
-        hf_dataset = hf_dataset.filter(lambda example: example['task']=='agr_sv_num_subj-relc')#agr_sv_num_pp
+        hf_dataset = hf_dataset.filter(lambda example: example['task']=='agr_sv_num_subj-relc')
         dataset = hf_dataset
 
         valid_counter = 0
